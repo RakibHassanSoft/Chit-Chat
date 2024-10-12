@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser')
 const compression = require('compression')
 const fileUpload = require('express-fileupload')
 const cors = require('cors')
+const connectDB = require('./configs/db');
+const routers = require('./routes/auth.route')
+connectDB();
 //Dot Conifg
 dotenv.config();
 
@@ -34,6 +37,10 @@ app.use(cors())
 
 // }))
 
+//Routers
+// Use your routes
+app.use('/api/v1', routers);
+//http://localhost:8000/api/v1/auth/register
 
 //env variables
 const PORT = 8000 || process.env.PORT;
@@ -43,6 +50,11 @@ app.get('/',(req,res)=>{
 })
 
 
+
+//Import route
+
+
 app.listen(PORT,()=>{
     console.log(`Server is runnning of ${PORT}`)
 })
+
