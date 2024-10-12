@@ -1,10 +1,39 @@
 const express = require('express');
 const dotenv = require('dotenv');
-
+const helmet = require('helmet');
+const mongoSanatize = require('express-mongo-sanitize');
+const cookieParser = require('cookie-parser')
+const compression = require('compression')
+const fileUpload = require('express-fileupload')
+const cors = require('cors')
 //Dot Conifg
 dotenv.config();
+
 //Create express app
 const app = express();
+
+//Helmet
+app.use(helmet());
+//Accept json data
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+//sanatize request data
+app.use(mongoSanatize());
+//Enable cookie parser
+app.use(cookieParser());
+//Enable compression
+app.use(compression())
+//file upload
+app.use(fileUpload({
+    useTempFiles:true
+}));
+//Enable cors
+app.use(cors())
+// app.use(cors({
+//     origin:'http://localhost:3000',
+
+// }))
+
 
 //env variables
 const PORT = 8000 || process.env.PORT;
